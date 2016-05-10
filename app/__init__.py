@@ -3,8 +3,14 @@ from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
 
+
+from app.config.options import SQLALCHEMY_DATABASE_URI
+from . import config
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
+app.config[config.options.DEBUG]
+
 db = SQLAlchemy(app)
 
 class Post(db.Model):
@@ -39,7 +45,3 @@ def create_post():
         db.session.commit()
         return  'OK'
     return 'NOT OK'
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
